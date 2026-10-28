@@ -1,0 +1,13 @@
+/* Scoped Styles for Stock & Inventory Management */
+
+.stock-meter-bg {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stock-row-low {
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.stock-row-out {
+  background: rgba(244, 63, 94, 0.05);
+}

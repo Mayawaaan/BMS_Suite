@@ -1,0 +1,30 @@
+/* Scoped Styles for Executive Dashboard Feature - Beige & Ivory Luxury */
+
+.dashboard-hero-card {
+  position: relative;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.dashboard-mesh-bg {
+  background-color: var(--bg-card);
+}
+
+.activity-node {
+  position: relative;
+}
+
+.activity-node::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 36px;
+  bottom: -16px;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.activity-node:last-child::before {
+  display: none;
+}

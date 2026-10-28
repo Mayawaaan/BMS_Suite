@@ -1,0 +1,10 @@
+/* Scoped Styles for Revenue & MRR Analytics */
+
+.revenue-stream-bar {
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mrr-highlight {
+  background-color: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+}

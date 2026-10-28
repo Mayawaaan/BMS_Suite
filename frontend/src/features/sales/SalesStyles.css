@@ -1,0 +1,20 @@
+/* Scoped Styles for Sales & Deals Pipeline */
+
+.deal-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deal-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.15);
+}
+
+.pipeline-column {
+  min-height: 480px;
+}
+
+.deal-won-glow {
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}

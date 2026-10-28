@@ -1,0 +1,27 @@
+{
+  "name": "zsyio-bms",
+  "version": "2.4.0",
+  "description": "ZSYIO BMS - Multi-Tenant Enterprise Business Management System & Operations OS",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"yellow,cyan\" \"npm run backend\" \"npm run frontend\"",
+    "backend": "npm --prefix backend run dev",
+    "frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm run backend",
+    "dev:frontend": "npm run frontend",
+    "build": "npm --prefix frontend run build"
+  },
+  "keywords": [
+    "bms",
+    "erp",
+    "crm",
+    "analytics",
+    "mern",
+    "tailwind"
+  ],
+  "author": "ZSYIO BMS",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
