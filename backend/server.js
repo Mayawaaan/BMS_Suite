@@ -34,21 +34,47 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Configurable Enterprise CORS (Supports localhost on any port in dev + specified origins)
+// Configurable Enterprise CORS (Supports localhost, all Vercel deployments, Render apps & custom origins)
 const LOCALHOST_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-const rawCorsOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174';
-const allowedOrigins = rawCorsOrigin.split(',').map((o) => o.trim());
+const VERCEL_REGEX = /^https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.vercel\.app$/;
+const RENDER_REGEX = /^https:\/\/[a-zA-Z0-9-]+\.onrender\.com$/;
+
+const rawCorsOrigin = process.env.CORS_ORIGIN || '';
+const configuredOrigins = rawCorsOrigin
+  .split(',')
+  .map((o) => o.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+
+const defaultAllowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:5175',
+];
+
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...configuredOrigins])];
 
 const corsOptions = {
   origin: function (origin, callback) {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    const cleanOrigin = origin.trim().replace(/\/+$/, '');
+
     if (
-      !origin ||
-      allowedOrigins.includes(origin) ||
+      allowedOrigins.includes(cleanOrigin) ||
       allowedOrigins.includes('*') ||
-      LOCALHOST_REGEX.test(origin)
+      LOCALHOST_REGEX.test(cleanOrigin) ||
+      VERCEL_REGEX.test(cleanOrigin) ||
+      RENDER_REGEX.test(cleanOrigin)
     ) {
       return callback(null, true);
     }
+
+    console.warn(`[CORS Blocked]: Origin "${cleanOrigin}" not allowed. Configured:`, allowedOrigins);
     return callback(null, false);
   },
   credentials: true,
@@ -61,8 +87,11 @@ const corsOptions = {
     'X-Tenant-Slug',
     'X-Business-Type',
     'X-Requested-With',
+    'Accept',
+    'Origin',
   ],
   exposedHeaders: ['X-Cache', 'X-Tenant-ID'],
+  optionsSuccessStatus: 200,
 };
 
 // Mount CORS before other middlewares and handle preflight OPTIONS
